@@ -1,0 +1,131 @@
+/* // get TL details
+    function get_tls()
+    {
+        $sql = "SELECT id,name FROM employees WHERE role = 2";
+        try {
+            $connection = $this->get_connection();
+            $result = $connection->query($sql) or die($connection->error);
+            echo "<br/>";
+            while ($tls = $result->fetch_assoc()) {
+                echo "<option value='".$tls['id']."'>"; 
+                echo $tls['name']; 
+                echo "</option>"."<br/>";
+            }
+        } catch (\Throwable $th) {
+            die($th->getMessage());
+        }
+    } */
+
+    // to check existence
+    
+    // function check_existence($tableName, $columns, $values)
+    // {
+    //     if (is_array($columns)) {
+    //         $columns = implode(', ', $columns);
+    //     }
+    //     if (is_array($values)) {
+    //         $values = '"' . implode('", "', $values) . '"';
+    //     }
+    //     $sql = "SELECT $columns FROM $tableName WHERE $columns = '$values'";
+    //     var_dump($sql); die;
+    //     try {
+    //         $existence = 0;
+    //         $connection = $this->get_connection();
+    //         $result = $connection->query($sql) or die($connection->error);
+    //         $existence = $result->num_rows;
+    //         return $existence;
+    //     } catch (\Throwable $th) {
+    //         die($th->getMessage());
+    //     }
+    //     return $existence;
+    // }
+
+
+    <form name="newProject" action="" method="post" autocomplete="off">
+                <div class="form-group col-md-6">
+                    <?php if ($role == 1) { ?>
+                    <label for="title">Title<span style="color:red;">*</span></label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="project title here.."
+                            required>
+                    <?php } else { ?>
+                    <label for="title">Project<span style="color:red;">*</span></label>
+                        <select class=" form-control" id="title" name="title" required>
+                            <option value="">select project</option>
+                            <?php
+                            if ($projects) {
+                                foreach ($projects as $project) { ?>
+                                    <option value="<?php echo $project['id']; ?>">
+                                        <?php echo $project['title']; ?> </option>
+                                <?php }
+                            } else { ?>
+                                <option value="">
+                                    <?php echo "currently there is no any record"; ?>
+                                </option>
+                                <?php
+                            }
+                            ?>
+                        </select>
+                    <?php } ?>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="url">Url</label>
+                    <input type="url" class="form-control" id="url" name="url" placeholder="url here..">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="tl">
+                        <?php
+                        switch ($role) {
+                            case 1:
+                                echo "Project Manager";
+                                break;
+                            case 2:
+                                echo "Team Leader";
+                                break;
+                            case 3:
+                                echo "Developer";
+                                break;
+                            default:
+                                die("Access Denied!!");
+                            // exit;
+                        }
+                        ?>
+                        <span style="color:red;">*</span>
+                    </label>
+                    <select class=" form-control" id="tl" name="tl" required>
+                        <option value="">select name</option>
+                        <?php
+                        if ($tlRecords) {
+                            foreach ($tlRecords as $empRole) { ?>
+                                <option value="<?php echo $empRole['id']; ?>">
+                                    <?php echo $empRole['name']; ?> </option>
+                            <?php }
+                        } else { ?>
+                            <option value="">
+                                <?php echo "currently there is no any record"; ?>
+                            </option>
+                            <?php
+                        }
+                        ?>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="start_date">start_date<span style="color:red;">*</span></label>
+                    <input type="date" class="form-control" id="start_date" name="start_date" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="end_date">end_date<span style="color:red;">*</span></label>
+                    <input type="date" class="form-control" id="end_date" name="end_date" required>
+                </div>
+                <div class="form-group form-check mx-3">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1" checked>
+                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button type="submit" class="btn btn-outline-primary mx-3">Add Project</button>
+                    </div>
+                    <div class="col">
+                        <a class="btn btn-outline-primary" href="index.php?page=dashboard"> Back </a>
+                    </div>
+                </div>
+            </form>
