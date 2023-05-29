@@ -9,7 +9,7 @@ $employees = $employeeObj->fetch_record($sql);
 
 <div class="container">
     <div class="mt-5 d-flex justify-content-between align-items-center">
-        <h1>Our Employees </h1>
+        <h1>Our Employees are here </h1>
         <a class="btn btn-outline-success" href="index.php?page=new_employee">Add</a>
     </div>
 
