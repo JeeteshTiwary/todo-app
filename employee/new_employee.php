@@ -3,6 +3,7 @@ if (empty($_SESSION['employee'])) {
     header('location: login/login.php');
 }
 require_once $_SERVER['DOCUMENT_ROOT'] . '/todo-app/include/Employee.php';
+if($_SESSION['employee']['role'] == "Admin"){
 $employeeObj = new Employee();
 $empRoles = $employeeObj->fetch_record("SELECT id,name FROM roles");
 $rolename = null;
@@ -113,3 +114,8 @@ if ($_POST) {
         </form>
     </div>
 </div>
+
+<?php 
+}else {
+    echo "Access Denied!!";
+}

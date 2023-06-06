@@ -10,6 +10,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/todo-app/include/Project.php';
 
 $projectObj = new Project();
 $projects = $projectObj->my_projects();
+// var_dump($projects);
 ?>
 
 <div class="container">
@@ -35,7 +36,7 @@ $projects = $projectObj->my_projects();
             <tr>
                 <th>Name</th>
                 <th>Url</th>
-                <th>Team Leader</th>
+                <!-- <th>Team Leader</th> -->
                 <th>Start Date</th>
                 <th>End Date</th>
             </tr>
@@ -46,18 +47,18 @@ $projects = $projectObj->my_projects();
                 <?php foreach ($projects as $project) { ?>
                     <tr>
                         <td>
-                            <?php echo $project['name'] ?>
+                            <?php echo $project['title'] ?>
                         </td>
                         <td>
                             <?php echo $project['url'] ?>
                         </td>
-                        <td>
+                        <!-- <td>
                             <?php
-                            $emp_id = $project['tl_id'];
-                            $tl = $projectObj->get_records("employees", "name", "id=$emp_id");
-                            echo $tl[0]['name'];
+                            //$emp_id = $project['tl_id'];
+                            //$tl = $projectObj->get_records("employees", "name", "id=$emp_id");
+                            //echo $tl[0]['name'];
                             ?>
-                        </td>
+                        </td> -->
                         <td>
                             <?php echo $project['start_date'] ?>
                         </td>

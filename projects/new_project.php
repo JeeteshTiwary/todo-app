@@ -4,10 +4,9 @@ if (empty($_SESSION['employee'])) {
 }
 require_once $_SERVER['DOCUMENT_ROOT'] . '/todo-app/include/Project.php';
 $projectObj = new Project();
-// var_dump($_SESSION['employee']); die;
 $role = $_SESSION['employee']['role'];
 $employee_id = $_SESSION['employee']['id'];
-$projects = $projectObj->fetch_record("SELECT projects.id,title FROM projects join projects_employees on empProject WHERE empProject.employee_id = '$employee_id' ");
+$projects = $projectObj->fetch_record("SELECT projects.id,title FROM projects join projects_employees on projects.id = projects_employees.project_id WHERE projects_employees.employee_id = '$employee_id' ");
 // var_dump($projects);die;
 $tlRecords = null;
 switch ($role) {
@@ -26,20 +25,28 @@ switch ($role) {
 }
 
 if ($_POST) {
-    $check = '';
-    $title = $_POST['title'];
-    $url = $_POST['url'];
-    $tl = $_POST['tl'];
-    $employee_id = $_SESSION['employee']['id'];
-    $start_date = $_POST['start_date'];
-    $end_date = $_POST['end_date'];
-    if ($end_date > $start_date) {
+    if ($role == "Admin") {
+        $check = '';
+        $title = $_POST['title'];
+        $url = $_POST['url'];
+        $tl = $_POST['tl'];
+        $employee_id = $_SESSION['employee']['id'];
+        $start_date = $_POST['start_date'];
+        $end_date = $_POST['end_date'];
+        if ($end_date > $start_date) {
+            $project = new Project();
+            $project->new_project();
+        } else {
+            $check = "Please select a valid date.";
+            header('location:index.php?page=new_project&error=' . $check);
+            exit;
+        }
+    } else {
+        $check = '';
+        $title = $_POST['title'];
+        $tl = $_POST['tl'];
         $project = new Project();
         $project->new_project();
-    } else {
-        $check = "Please select a valid date.";
-        header('location:index.php?page=new_project&error=' . $check);
-        exit;
     }
 }
 ?>
@@ -149,13 +156,10 @@ if ($_POST) {
                     <label for="tl">
                         <?php
                         switch ($role) {
-                            case 1:
-                                echo "Project Manager";
-                                break;
-                            case 2:
+                            case "Project Manager":
                                 echo "Team Leader";
                                 break;
-                            case 3:
+                            case "Team Leader":
                                 echo "Developer";
                                 break;
                             default:
